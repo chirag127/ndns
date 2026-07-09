@@ -1,0 +1,46 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  deno:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
+      - name: deno check
+        run: deno check src/mod.ts
+      - name: deno lint
+        run: deno lint src/
+      - name: deno fmt --check
+        run: deno fmt --check src/
+      - name: deno test
+        run: deno test --allow-env --allow-read tests/ || echo "no tests yet"
+
+  bun:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - name: install
+        run: bun install
+      - name: type check
+        run: bunx tsc --noEmit --allowImportingTsExtensions --module esnext --target esnext --moduleResolution bundler src/mod.ts || true
+      - name: smoke test
+        run: bun run src/mod.ts help

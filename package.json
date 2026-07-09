@@ -1,0 +1,40 @@
+{
+  "name": "@chirag127/ndns",
+  "version": "0.1.0",
+  "description": "Complete NextDNS account CLI (Deno/Bun TS, official API)",
+  "type": "module",
+  "bin": {
+    "ndns": "./src/mod.ts"
+  },
+  "scripts": {
+    "start": "bun run src/mod.ts",
+    "check": "bun tsc --noEmit -p .",
+    "test": "bun test"
+  },
+  "engines": {
+    "bun": ">=1.3.0",
+    "node": ">=20.0.0"
+  },
+  "keywords": [
+    "nextdns",
+    "cli",
+    "dns",
+    "deno",
+    "bun",
+    "typescript"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chirag127/ndns.git"
+  },
+  "author": "chirag127",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/chirag127/ndns/issues"
+  },
+  "homepage": "https://github.com/chirag127/ndns#readme",
+  "devDependencies": {
+    "typescript": "^5.7.0",
+    "@types/node": "^22.0.0"
+  }
+}
