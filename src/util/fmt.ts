@@ -30,7 +30,7 @@ function toTable(rows: Record<string, unknown>[], headers: string[]): string {
     Math.max(
       h.length,
       ...rows.map((r) => (r[h] == null ? 0 : String(r[h]).length)),
-    ),
+    )
   );
   const pad = (s: string, w: number) => s + " ".repeat(Math.max(0, w - s.length));
   const line = headers.map((h, i) => pad(h, widths[i])).join("  ");
@@ -39,7 +39,7 @@ function toTable(rows: Record<string, unknown>[], headers: string[]): string {
     .map((r) =>
       headers
         .map((h, i) => pad(r[h] == null ? "" : String(r[h]), widths[i]))
-        .join("  "),
+        .join("  ")
     )
     .join("\n");
   return `${line}\n${sep}\n${body}`;

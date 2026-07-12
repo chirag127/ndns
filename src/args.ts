@@ -45,22 +45,33 @@ export function parseArgs(argv: string[], spec: ParseArgsSpec = {}): ParsedArgs 
       const eq = body.indexOf("=");
       let name: string;
       let val: string | undefined;
-      if (eq >= 0) { name = body.slice(0, eq); val = body.slice(eq + 1); }
-      else { name = body; val = undefined; }
+      if (eq >= 0) {
+        name = body.slice(0, eq);
+        val = body.slice(eq + 1);
+      } else {
+        name = body;
+        val = undefined;
+      }
       // handle --no-<flag>
       if (name.startsWith("no-") && boolSet.has(name.slice(3))) {
         values[resolve(name.slice(3))] = false;
-        i++; continue;
+        i++;
+        continue;
       }
       const key = resolve(name);
       if (boolSet.has(name) || boolSet.has(key)) {
-        if (val === undefined) { values[key] = true; }
-        else { values[key] = val === "true" || val === "1"; }
-        i++; continue;
+        if (val === undefined) values[key] = true;
+        else values[key] = val === "true" || val === "1";
+        i++;
+        continue;
       }
-      if (val === undefined) { val = argv[i + 1]; i += 2; }
-      else { i += 1; }
-      if (stringSet.has(name) || stringSet.has(key) || collectSet.has(name) || collectSet.has(key)) {
+      if (val === undefined) {
+        val = argv[i + 1];
+        i += 2;
+      } else i += 1;
+      if (
+        stringSet.has(name) || stringSet.has(key) || collectSet.has(name) || collectSet.has(key)
+      ) {
         setValue(key, val ?? "");
       } else {
         // unknown --flag treated as string
@@ -71,10 +82,15 @@ export function parseArgs(argv: string[], spec: ParseArgsSpec = {}): ParsedArgs 
     if (a.startsWith("-") && a.length > 1) {
       const short = a.slice(1);
       const key = resolve(short);
-      if (boolSet.has(short) || boolSet.has(key)) { values[key] = true; i++; continue; }
+      if (boolSet.has(short) || boolSet.has(key)) {
+        values[key] = true;
+        i++;
+        continue;
+      }
       const val = argv[i + 1];
       setValue(key, val ?? "");
-      i += 2; continue;
+      i += 2;
+      continue;
     }
     positionals.push(a);
     i++;

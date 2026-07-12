@@ -2,7 +2,7 @@
 
 import { NextDnsClient } from "../client.ts";
 import { getApiKey } from "../util/env.ts";
-import { printJson, printSuccess, printError } from "../util/fmt.ts";
+import { printError, printJson, printSuccess } from "../util/fmt.ts";
 import { parseArgs, toBool } from "../args.ts";
 
 export async function settings(args: string[]): Promise<void> {
@@ -26,7 +26,11 @@ export async function settings(args: string[]): Promise<void> {
       return;
     }
     if (action === "set") {
-      if (!profile) return printError("settings logs set <profile> [--enabled=<b>] [--retention=<hours>] [--location=<eu|us|ch|gb|de|sg>] [--drop-ip=<b>] [--drop-domain=<b>]");
+      if (!profile) {
+        return printError(
+          "settings logs set <profile> [--enabled=<b>] [--retention=<hours>] [--location=<eu|us|ch|gb|de|sg>] [--drop-ip=<b>] [--drop-domain=<b>]",
+        );
+      }
       const opts = parseArgs(rest.slice(2), {
         boolean: ["enabled", "drop-ip", "drop-domain"],
         string: ["retention", "location"],
@@ -34,7 +38,9 @@ export async function settings(args: string[]): Promise<void> {
       const body: Record<string, unknown> = {};
       const en = toBool(opts.values.enabled);
       if (en !== undefined) body.enabled = en;
-      if (opts.values.retention !== undefined) body.retention = parseInt(String(opts.values.retention), 10);
+      if (opts.values.retention !== undefined) {
+        body.retention = parseInt(String(opts.values.retention), 10);
+      }
       if (opts.values.location !== undefined) body.location = opts.values.location;
       const drop: Record<string, unknown> = {};
       const dip = toBool(opts.values["drop-ip"]);
@@ -81,8 +87,14 @@ export async function settings(args: string[]): Promise<void> {
       return;
     }
     if (action === "set") {
-      if (!profile) return printError("settings performance set <profile> [--ecs=<b>] [--cache-boost=<b>] [--cname-flattening=<b>]");
-      const opts = parseArgs(rest.slice(2), { boolean: ["ecs", "cache-boost", "cname-flattening"] });
+      if (!profile) {
+        return printError(
+          "settings performance set <profile> [--ecs=<b>] [--cache-boost=<b>] [--cname-flattening=<b>]",
+        );
+      }
+      const opts = parseArgs(rest.slice(2), {
+        boolean: ["ecs", "cache-boost", "cname-flattening"],
+      });
       const body: Record<string, unknown> = {};
       const ecs = toBool(opts.values.ecs);
       const cb = toBool(opts.values["cache-boost"]);

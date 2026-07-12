@@ -2,7 +2,7 @@
 
 import { NextDnsClient } from "../client.ts";
 import { getApiKey } from "../util/env.ts";
-import { printJson, printSuccess, printError } from "../util/fmt.ts";
+import { printError, printJson, printSuccess } from "../util/fmt.ts";
 import { parseArgs } from "../args.ts";
 
 export async function config(args: string[]): Promise<void> {
@@ -30,7 +30,9 @@ export async function config(args: string[]): Promise<void> {
     const modeStr = String(opts.values.mode ?? "merge").toLowerCase();
     const mode = modeStr === "replace" ? "replace" : "merge";
     const path = opts.values["from-file"] as string | undefined;
-    if (!path) return printError("config import [<profile>] --from-file <path> [--mode=merge|replace]");
+    if (!path) {
+      return printError("config import [<profile>] --from-file <path> [--mode=merge|replace]");
+    }
     const text = await readFile(path);
     const body = JSON.parse(text);
 

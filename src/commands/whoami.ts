@@ -1,7 +1,7 @@
 // whoami — verifies API key by listing profiles.
 
-import { NextDnsClient, NextDnsApiError } from "../client.ts";
-import { getApiKey, exit } from "../util/env.ts";
+import { NextDnsApiError, NextDnsClient } from "../client.ts";
+import { exit, getApiKey } from "../util/env.ts";
 
 export async function whoami(_args: string[]): Promise<void> {
   const key = getApiKey();

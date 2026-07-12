@@ -2,7 +2,7 @@
 
 import { NextDnsClient } from "../client.ts";
 import { getApiKey } from "../util/env.ts";
-import { formatOutput, printJson, printSuccess, printError, OutputFormat } from "../util/fmt.ts";
+import { formatOutput, OutputFormat, printError, printJson, printSuccess } from "../util/fmt.ts";
 import { parseArgs } from "../args.ts";
 
 export async function native(args: string[]): Promise<void> {

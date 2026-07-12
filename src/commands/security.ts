@@ -2,7 +2,7 @@
 
 import { NextDnsClient } from "../client.ts";
 import { getApiKey } from "../util/env.ts";
-import { printJson, printSuccess, printError } from "../util/fmt.ts";
+import { printError, printJson, printSuccess } from "../util/fmt.ts";
 import { parseArgs, toBool } from "../args.ts";
 
 const BOOL_FIELDS = [
@@ -53,7 +53,9 @@ export async function security(args: string[]): Promise<void> {
         .filter(Boolean)
         .map((id) => ({ id }));
     }
-    if (Object.keys(body).length === 0) return printError("no changes; pass one or more --<field>=<value>");
+    if (Object.keys(body).length === 0) {
+      return printError("no changes; pass one or more --<field>=<value>");
+    }
     await client.patchSecurity(profile, body);
     printSuccess("security updated");
     return;

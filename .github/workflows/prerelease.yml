@@ -1,0 +1,67 @@
+name: prerelease
+
+# Rolling prerelease built on every push to main (NOT on tags — tagged v*
+# releases are handled by release.yml). Publishes 4-platform binaries to a
+# single rolling "prerelease" GitHub release.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - src/**
+      - deno.json
+      - deno.lock
+      - .github/workflows/prerelease.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - target: x86_64-unknown-linux-gnu
+            output: ndns-linux-x64
+            os: ubuntu-latest
+          - target: aarch64-apple-darwin
+            output: ndns-macos-arm64
+            os: macos-latest
+          - target: x86_64-apple-darwin
+            output: ndns-macos-x64
+            os: macos-latest
+          - target: x86_64-pc-windows-msvc
+            output: ndns-windows-x64.exe
+            os: windows-latest
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
+      - name: compile
+        run: deno compile --target ${{ matrix.target }} --allow-net --allow-env --allow-read --allow-write -o dist/${{ matrix.output }} src/mod.ts
+      - uses: actions/upload-artifact@v5
+        with:
+          name: ${{ matrix.output }}
+          path: dist/${{ matrix.output }}
+
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v5
+        with:
+          path: dist
+          merge-multiple: true
+      - uses: softprops/action-gh-release@v2
+        with:
+          tag_name: prerelease
+          name: Rolling prerelease
+          prerelease: true
+          body: |
+            Automated build from the latest `main` (${{ github.sha }}).
+            Unstable — for stable binaries use a tagged `v*` release.
+          files: dist/*

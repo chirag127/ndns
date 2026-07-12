@@ -23,9 +23,9 @@ jobs:
       - name: deno lint
         run: deno lint src/
       - name: deno fmt --check
-        run: deno fmt --check src/
+        run: deno fmt --check src/ tests/
       - name: deno test
-        run: deno test --allow-env --allow-read tests/ || echo "no tests yet"
+        run: deno test --allow-env --allow-read tests/
 
   bun:
     strategy:

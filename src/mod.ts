@@ -4,7 +4,7 @@
 
 import { whoami } from "./commands/whoami.ts";
 import { profile } from "./commands/profile.ts";
-import { denylist, allowlist } from "./commands/denylist.ts";
+import { allowlist, denylist } from "./commands/denylist.ts";
 import { blocklist } from "./commands/blocklist.ts";
 import { native } from "./commands/native.ts";
 import { security } from "./commands/security.ts";

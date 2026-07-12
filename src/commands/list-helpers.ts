@@ -1,6 +1,6 @@
 // Shared helper for denylist/allowlist bulk ops.
 
-import { NextDnsClient, NextDnsApiError } from "../client.ts";
+import { NextDnsApiError, NextDnsClient } from "../client.ts";
 
 export type ListKind = "denylist" | "allowlist";
 
@@ -37,13 +37,18 @@ async function readStdinAll(): Promise<string> {
     const total = chunks.reduce((n, c) => n + c.length, 0);
     const buf = new Uint8Array(total);
     let off = 0;
-    for (const c of chunks) { buf.set(c, off); off += c.length; }
+    for (const c of chunks) {
+      buf.set(c, off);
+      off += c.length;
+    }
     return new TextDecoder().decode(buf);
   }
   // Node/Bun
   const { stdin } = await import("node:process");
   let out = "";
-  for await (const chunk of stdin) out += typeof chunk === "string" ? chunk : chunk.toString("utf8");
+  for await (const chunk of stdin) {
+    out += typeof chunk === "string" ? chunk : chunk.toString("utf8");
+  }
   return out;
 }
 
@@ -76,7 +81,10 @@ export async function bulkAdd(
         else await client.addAllowlist(profile, d, true);
         result.added++;
       } catch (e) {
-        if (e instanceof NextDnsApiError && (e.status === 409 || e.errors.some((x) => (x.code || "").includes("duplicate")))) {
+        if (
+          e instanceof NextDnsApiError &&
+          (e.status === 409 || e.errors.some((x) => (x.code || "").includes("duplicate")))
+        ) {
           result.existed++;
         } else {
           result.failed.push({ domain: d, error: e instanceof Error ? e.message : String(e) });

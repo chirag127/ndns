@@ -147,84 +147,222 @@ export class NextDnsClient {
   }
 
   // ---------- Profile CRUD ----------
-  listProfiles() { return this.paginateAll<{ id: string; fingerprint?: string; name?: string }>("/profiles"); }
-  getProfile(id: string) { return this.request<Record<string, unknown>>("GET", `/profiles/${id}`); }
-  createProfile(body: Record<string, unknown>) { return this.request<{ id: string }>("POST", "/profiles", { body }); }
-  updateProfile(id: string, body: Record<string, unknown>) { return this.request("PATCH", `/profiles/${id}`, { body }); }
-  deleteProfile(id: string) { return this.request("DELETE", `/profiles/${id}`); }
+  listProfiles() {
+    return this.paginateAll<{ id: string; fingerprint?: string; name?: string }>("/profiles");
+  }
+  getProfile(id: string) {
+    return this.request<Record<string, unknown>>("GET", `/profiles/${id}`);
+  }
+  createProfile(body: Record<string, unknown>) {
+    return this.request<{ id: string }>("POST", "/profiles", { body });
+  }
+  updateProfile(id: string, body: Record<string, unknown>) {
+    return this.request("PATCH", `/profiles/${id}`, { body });
+  }
+  deleteProfile(id: string) {
+    return this.request("DELETE", `/profiles/${id}`);
+  }
 
   // ---------- Sub-resources (obj-shaped) ----------
-  getSecurity(id: string) { return this.request<Record<string, unknown>>("GET", `/profiles/${id}/security`); }
-  patchSecurity(id: string, body: Record<string, unknown>) { return this.request("PATCH", `/profiles/${id}/security`, { body }); }
+  getSecurity(id: string) {
+    return this.request<Record<string, unknown>>("GET", `/profiles/${id}/security`);
+  }
+  patchSecurity(id: string, body: Record<string, unknown>) {
+    return this.request("PATCH", `/profiles/${id}/security`, { body });
+  }
 
-  getPrivacy(id: string) { return this.request<Record<string, unknown>>("GET", `/profiles/${id}/privacy`); }
-  patchPrivacy(id: string, body: Record<string, unknown>) { return this.request("PATCH", `/profiles/${id}/privacy`, { body }); }
+  getPrivacy(id: string) {
+    return this.request<Record<string, unknown>>("GET", `/profiles/${id}/privacy`);
+  }
+  patchPrivacy(id: string, body: Record<string, unknown>) {
+    return this.request("PATCH", `/profiles/${id}/privacy`, { body });
+  }
 
-  getParentalControl(id: string) { return this.request<Record<string, unknown>>("GET", `/profiles/${id}/parentalControl`); }
-  patchParentalControl(id: string, body: Record<string, unknown>) { return this.request("PATCH", `/profiles/${id}/parentalControl`, { body }); }
+  getParentalControl(id: string) {
+    return this.request<Record<string, unknown>>("GET", `/profiles/${id}/parentalControl`);
+  }
+  patchParentalControl(id: string, body: Record<string, unknown>) {
+    return this.request("PATCH", `/profiles/${id}/parentalControl`, { body });
+  }
 
-  getSettings(id: string) { return this.request<Record<string, unknown>>("GET", `/profiles/${id}/settings`); }
-  patchSettings(id: string, body: Record<string, unknown>) { return this.request("PATCH", `/profiles/${id}/settings`, { body }); }
+  getSettings(id: string) {
+    return this.request<Record<string, unknown>>("GET", `/profiles/${id}/settings`);
+  }
+  patchSettings(id: string, body: Record<string, unknown>) {
+    return this.request("PATCH", `/profiles/${id}/settings`, { body });
+  }
 
-  getSettingsLogs(id: string) { return this.request<Record<string, unknown>>("GET", `/profiles/${id}/settings/logs`); }
-  patchSettingsLogs(id: string, body: Record<string, unknown>) { return this.request("PATCH", `/profiles/${id}/settings/logs`, { body }); }
+  getSettingsLogs(id: string) {
+    return this.request<Record<string, unknown>>("GET", `/profiles/${id}/settings/logs`);
+  }
+  patchSettingsLogs(id: string, body: Record<string, unknown>) {
+    return this.request("PATCH", `/profiles/${id}/settings/logs`, { body });
+  }
 
-  getSettingsBlockPage(id: string) { return this.request<Record<string, unknown>>("GET", `/profiles/${id}/settings/blockPage`); }
-  patchSettingsBlockPage(id: string, body: Record<string, unknown>) { return this.request("PATCH", `/profiles/${id}/settings/blockPage`, { body }); }
+  getSettingsBlockPage(id: string) {
+    return this.request<Record<string, unknown>>("GET", `/profiles/${id}/settings/blockPage`);
+  }
+  patchSettingsBlockPage(id: string, body: Record<string, unknown>) {
+    return this.request("PATCH", `/profiles/${id}/settings/blockPage`, { body });
+  }
 
-  getSettingsPerformance(id: string) { return this.request<Record<string, unknown>>("GET", `/profiles/${id}/settings/performance`); }
-  patchSettingsPerformance(id: string, body: Record<string, unknown>) { return this.request("PATCH", `/profiles/${id}/settings/performance`, { body }); }
+  getSettingsPerformance(id: string) {
+    return this.request<Record<string, unknown>>("GET", `/profiles/${id}/settings/performance`);
+  }
+  patchSettingsPerformance(id: string, body: Record<string, unknown>) {
+    return this.request("PATCH", `/profiles/${id}/settings/performance`, { body });
+  }
 
   // ---------- Sub-resources (array-shaped) ----------
-  listDenylist(id: string) { return this.paginateAll<{ id: string; active: boolean }>(`/profiles/${id}/denylist`); }
-  addDenylist(id: string, domain: string, active = true) { return this.request("POST", `/profiles/${id}/denylist`, { body: { id: domain, active } }); }
-  patchDenylist(id: string, domain: string, active: boolean) { return this.request("PATCH", `/profiles/${id}/denylist/${encodeURIComponent(domain)}`, { body: { active } }); }
-  removeDenylist(id: string, domain: string) { return this.request("DELETE", `/profiles/${id}/denylist/${encodeURIComponent(domain)}`); }
+  listDenylist(id: string) {
+    return this.paginateAll<{ id: string; active: boolean }>(`/profiles/${id}/denylist`);
+  }
+  addDenylist(id: string, domain: string, active = true) {
+    return this.request("POST", `/profiles/${id}/denylist`, { body: { id: domain, active } });
+  }
+  patchDenylist(id: string, domain: string, active: boolean) {
+    return this.request("PATCH", `/profiles/${id}/denylist/${encodeURIComponent(domain)}`, {
+      body: { active },
+    });
+  }
+  removeDenylist(id: string, domain: string) {
+    return this.request("DELETE", `/profiles/${id}/denylist/${encodeURIComponent(domain)}`);
+  }
 
-  listAllowlist(id: string) { return this.paginateAll<{ id: string; active: boolean }>(`/profiles/${id}/allowlist`); }
-  addAllowlist(id: string, domain: string, active = true) { return this.request("POST", `/profiles/${id}/allowlist`, { body: { id: domain, active } }); }
-  patchAllowlist(id: string, domain: string, active: boolean) { return this.request("PATCH", `/profiles/${id}/allowlist/${encodeURIComponent(domain)}`, { body: { active } }); }
-  removeAllowlist(id: string, domain: string) { return this.request("DELETE", `/profiles/${id}/allowlist/${encodeURIComponent(domain)}`); }
+  listAllowlist(id: string) {
+    return this.paginateAll<{ id: string; active: boolean }>(`/profiles/${id}/allowlist`);
+  }
+  addAllowlist(id: string, domain: string, active = true) {
+    return this.request("POST", `/profiles/${id}/allowlist`, { body: { id: domain, active } });
+  }
+  patchAllowlist(id: string, domain: string, active: boolean) {
+    return this.request("PATCH", `/profiles/${id}/allowlist/${encodeURIComponent(domain)}`, {
+      body: { active },
+    });
+  }
+  removeAllowlist(id: string, domain: string) {
+    return this.request("DELETE", `/profiles/${id}/allowlist/${encodeURIComponent(domain)}`);
+  }
 
-  listBlocklists(id: string) { return this.paginateAll<{ id: string }>(`/profiles/${id}/privacy/blocklists`); }
-  addBlocklist(id: string, blocklistId: string) { return this.request("POST", `/profiles/${id}/privacy/blocklists`, { body: { id: blocklistId } }); }
-  removeBlocklist(id: string, blocklistId: string) { return this.request("DELETE", `/profiles/${id}/privacy/blocklists/${encodeURIComponent(blocklistId)}`); }
+  listBlocklists(id: string) {
+    return this.paginateAll<{ id: string }>(`/profiles/${id}/privacy/blocklists`);
+  }
+  addBlocklist(id: string, blocklistId: string) {
+    return this.request("POST", `/profiles/${id}/privacy/blocklists`, {
+      body: { id: blocklistId },
+    });
+  }
+  removeBlocklist(id: string, blocklistId: string) {
+    return this.request(
+      "DELETE",
+      `/profiles/${id}/privacy/blocklists/${encodeURIComponent(blocklistId)}`,
+    );
+  }
 
-  listNatives(id: string) { return this.paginateAll<{ id: string }>(`/profiles/${id}/privacy/natives`); }
-  addNative(id: string, nativeId: string) { return this.request("POST", `/profiles/${id}/privacy/natives`, { body: { id: nativeId } }); }
-  removeNative(id: string, nativeId: string) { return this.request("DELETE", `/profiles/${id}/privacy/natives/${encodeURIComponent(nativeId)}`); }
+  listNatives(id: string) {
+    return this.paginateAll<{ id: string }>(`/profiles/${id}/privacy/natives`);
+  }
+  addNative(id: string, nativeId: string) {
+    return this.request("POST", `/profiles/${id}/privacy/natives`, { body: { id: nativeId } });
+  }
+  removeNative(id: string, nativeId: string) {
+    return this.request(
+      "DELETE",
+      `/profiles/${id}/privacy/natives/${encodeURIComponent(nativeId)}`,
+    );
+  }
 
-  listSecurityTlds(id: string) { return this.paginateAll<{ id: string }>(`/profiles/${id}/security/tlds`); }
-  addSecurityTld(id: string, tld: string) { return this.request("POST", `/profiles/${id}/security/tlds`, { body: { id: tld } }); }
-  removeSecurityTld(id: string, tld: string) { return this.request("DELETE", `/profiles/${id}/security/tlds/${encodeURIComponent(tld)}`); }
+  listSecurityTlds(id: string) {
+    return this.paginateAll<{ id: string }>(`/profiles/${id}/security/tlds`);
+  }
+  addSecurityTld(id: string, tld: string) {
+    return this.request("POST", `/profiles/${id}/security/tlds`, { body: { id: tld } });
+  }
+  removeSecurityTld(id: string, tld: string) {
+    return this.request("DELETE", `/profiles/${id}/security/tlds/${encodeURIComponent(tld)}`);
+  }
 
-  listParentalServices(id: string) { return this.paginateAll<{ id: string; active: boolean }>(`/profiles/${id}/parentalControl/services`); }
-  addParentalService(id: string, svc: string, active = true) { return this.request("POST", `/profiles/${id}/parentalControl/services`, { body: { id: svc, active } }); }
-  patchParentalService(id: string, svc: string, active: boolean) { return this.request("PATCH", `/profiles/${id}/parentalControl/services/${encodeURIComponent(svc)}`, { body: { active } }); }
-  removeParentalService(id: string, svc: string) { return this.request("DELETE", `/profiles/${id}/parentalControl/services/${encodeURIComponent(svc)}`); }
+  listParentalServices(id: string) {
+    return this.paginateAll<{ id: string; active: boolean }>(
+      `/profiles/${id}/parentalControl/services`,
+    );
+  }
+  addParentalService(id: string, svc: string, active = true) {
+    return this.request("POST", `/profiles/${id}/parentalControl/services`, {
+      body: { id: svc, active },
+    });
+  }
+  patchParentalService(id: string, svc: string, active: boolean) {
+    return this.request(
+      "PATCH",
+      `/profiles/${id}/parentalControl/services/${encodeURIComponent(svc)}`,
+      { body: { active } },
+    );
+  }
+  removeParentalService(id: string, svc: string) {
+    return this.request(
+      "DELETE",
+      `/profiles/${id}/parentalControl/services/${encodeURIComponent(svc)}`,
+    );
+  }
 
-  listParentalCategories(id: string) { return this.paginateAll<{ id: string; active: boolean }>(`/profiles/${id}/parentalControl/categories`); }
-  addParentalCategory(id: string, cat: string, active = true) { return this.request("POST", `/profiles/${id}/parentalControl/categories`, { body: { id: cat, active } }); }
-  patchParentalCategory(id: string, cat: string, active: boolean) { return this.request("PATCH", `/profiles/${id}/parentalControl/categories/${encodeURIComponent(cat)}`, { body: { active } }); }
-  removeParentalCategory(id: string, cat: string) { return this.request("DELETE", `/profiles/${id}/parentalControl/categories/${encodeURIComponent(cat)}`); }
+  listParentalCategories(id: string) {
+    return this.paginateAll<{ id: string; active: boolean }>(
+      `/profiles/${id}/parentalControl/categories`,
+    );
+  }
+  addParentalCategory(id: string, cat: string, active = true) {
+    return this.request("POST", `/profiles/${id}/parentalControl/categories`, {
+      body: { id: cat, active },
+    });
+  }
+  patchParentalCategory(id: string, cat: string, active: boolean) {
+    return this.request(
+      "PATCH",
+      `/profiles/${id}/parentalControl/categories/${encodeURIComponent(cat)}`,
+      { body: { active } },
+    );
+  }
+  removeParentalCategory(id: string, cat: string) {
+    return this.request(
+      "DELETE",
+      `/profiles/${id}/parentalControl/categories/${encodeURIComponent(cat)}`,
+    );
+  }
 
   // ---------- Analytics ----------
-  analytics(id: string, resource: string, series: boolean, query: Record<string, string | number | boolean | undefined>) {
+  analytics(
+    id: string,
+    resource: string,
+    series: boolean,
+    query: Record<string, string | number | boolean | undefined>,
+  ) {
     const path = `/profiles/${id}/analytics/${resource}${series ? ";series" : ""}`;
     return this.request<unknown>("GET", path, { query });
   }
-  analyticsRaw(id: string, resource: string, series: boolean, query: Record<string, string | number | boolean | undefined>) {
+  analyticsRaw(
+    id: string,
+    resource: string,
+    series: boolean,
+    query: Record<string, string | number | boolean | undefined>,
+  ) {
     const path = `/profiles/${id}/analytics/${resource}${series ? ";series" : ""}`;
     return this.requestRaw<unknown>("GET", path, { query });
   }
 
   // ---------- Logs ----------
   listLogs(id: string, query: Record<string, string | number | boolean | undefined>) {
-    return this.requestRaw<Array<Record<string, unknown>>>("GET", `/profiles/${id}/logs`, { query });
+    return this.requestRaw<Array<Record<string, unknown>>>("GET", `/profiles/${id}/logs`, {
+      query,
+    });
   }
-  clearLogs(id: string) { return this.request("DELETE", `/profiles/${id}/logs`); }
+  clearLogs(id: string) {
+    return this.request("DELETE", `/profiles/${id}/logs`);
+  }
   downloadLogsUrl(id: string) {
-    return this.request<{ url: string }>("GET", `/profiles/${id}/logs/download`, { query: { redirect: "0" } });
+    return this.request<{ url: string }>("GET", `/profiles/${id}/logs/download`, {
+      query: { redirect: "0" },
+    });
   }
 
   /** SSE stream of logs — yields parsed JSON per event. */
@@ -275,5 +413,9 @@ export class NextDnsClient {
 }
 
 function safeJson(t: string): { errors?: ApiError[]; data?: unknown; meta?: unknown } | null {
-  try { return JSON.parse(t); } catch { return null; }
+  try {
+    return JSON.parse(t);
+  } catch {
+    return null;
+  }
 }

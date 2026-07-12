@@ -2,9 +2,9 @@
 
 import { NextDnsClient } from "../client.ts";
 import { getApiKey } from "../util/env.ts";
-import { printJson, printError } from "../util/fmt.ts";
+import { printError, printJson } from "../util/fmt.ts";
 import { parseArgs } from "../args.ts";
-import { normalizeDate, intervalToSeconds } from "../util/date.ts";
+import { intervalToSeconds, normalizeDate } from "../util/date.ts";
 
 const RESOURCES = [
   "status",
@@ -29,17 +29,35 @@ export async function analytics(args: string[]): Promise<void> {
     console.log("Usage: ndns analytics <resource> <profile> [flags]");
     console.log("Resources:");
     for (const r of RESOURCES) console.log(`  ${r}`);
-    console.log("Flags: --from=<date> --to=<date> --limit=<n> --device=<id> --status=<s> --root=<b> --type=<t>");
-    console.log("Time-series: --series --interval=<seconds|1d|1h> --alignment=<start|end|clock> --timezone=<IANA>");
+    console.log(
+      "Flags: --from=<date> --to=<date> --limit=<n> --device=<id> --status=<s> --root=<b> --type=<t>",
+    );
+    console.log(
+      "Time-series: --series --interval=<seconds|1d|1h> --alignment=<start|end|clock> --timezone=<IANA>",
+    );
     console.log("Output: --output=<json|table>");
     return;
   }
 
-  if (!RESOURCES.includes(resource)) return printError(`unknown resource '${resource}'. Try: ${RESOURCES.join(", ")}`);
+  if (!RESOURCES.includes(resource)) {
+    return printError(`unknown resource '${resource}'. Try: ${RESOURCES.join(", ")}`);
+  }
   if (!profile) return printError(`analytics ${resource} <profile>`);
 
   const opts = parseArgs(rest, {
-    string: ["from", "to", "limit", "device", "status", "type", "interval", "alignment", "timezone", "partials", "output"],
+    string: [
+      "from",
+      "to",
+      "limit",
+      "device",
+      "status",
+      "type",
+      "interval",
+      "alignment",
+      "timezone",
+      "partials",
+      "output",
+    ],
     boolean: ["series", "root"],
   });
 

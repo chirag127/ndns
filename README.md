@@ -1,10 +1,13 @@
 # ndns
 
+[![Stars](https://img.shields.io/github/stars/chirag127/ndns?style=flat&logo=github&label=Star)](https://github.com/chirag127/ndns/stargazers)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Deno](https://img.shields.io/badge/deno-2.9+-black.svg)](https://deno.com)
 [![Bun](https://img.shields.io/badge/bun-1.3+-orange.svg)](https://bun.sh)
 
 Complete NextDNS account CLI. Full official-API coverage. Deno + Bun single-file TS.
+
+Docs + command reference: <https://ndns.oriz.in>
 
 Fills gap left by `nextdns/nextdns` (forwarder-only) and 3rd-party libs (all narrow or stale).
 
@@ -52,35 +55,35 @@ ndns logs stream <profile>                         # live tail
 
 ## Commands
 
-| Command | Purpose |
-|---|---|
-| `whoami` | Verify API key + list profiles |
-| `profile <list\|show\|create\|update\|delete>` | Profile CRUD |
-| `denylist <list\|add\|remove\|toggle-active\|bulk-add\|bulk-remove\|export\|import>` | Block domains |
-| `allowlist <...>` | Same shape as denylist |
-| `blocklist <list-available\|list\|subscribe\|unsubscribe>` | Curated blocklists |
-| `native <list\|add\|remove>` | Native tracker feeds (Apple/Google/etc.) |
-| `security <show\|set\|tld>` | Threat protection settings |
-| `parental <show\|safe-search\|youtube-restricted\|block-bypass\|services\|categories>` | Parental control |
-| `privacy <show\|set>` | Privacy toggles |
-| `settings <show\|logs\|blockpage\|performance>` | Profile settings |
-| `analytics <resource> <profile>` | 11 endpoints, time-series via `--series` |
-| `logs <list\|stream\|download\|clear>` | Query logs, SSE stream |
-| `config <export\|import>` | Full profile backup / restore |
+| Command                                                                                | Purpose                                  |
+| -------------------------------------------------------------------------------------- | ---------------------------------------- |
+| `whoami`                                                                               | Verify API key + list profiles           |
+| `profile <list\|show\|create\|update\|delete>`                                         | Profile CRUD                             |
+| `denylist <list\|add\|remove\|toggle-active\|bulk-add\|bulk-remove\|export\|import>`   | Block domains                            |
+| `allowlist <...>`                                                                      | Same shape as denylist                   |
+| `blocklist <list-available\|list\|subscribe\|unsubscribe>`                             | Curated blocklists                       |
+| `native <list\|add\|remove>`                                                           | Native tracker feeds (Apple/Google/etc.) |
+| `security <show\|set\|tld>`                                                            | Threat protection settings               |
+| `parental <show\|safe-search\|youtube-restricted\|block-bypass\|services\|categories>` | Parental control                         |
+| `privacy <show\|set>`                                                                  | Privacy toggles                          |
+| `settings <show\|logs\|blockpage\|performance>`                                        | Profile settings                         |
+| `analytics <resource> <profile>`                                                       | 11 endpoints, time-series via `--series` |
+| `logs <list\|stream\|download\|clear>`                                                 | Query logs, SSE stream                   |
+| `config <export\|import>`                                                              | Full profile backup / restore            |
 
 ## Flags
 
-| Flag | Meaning |
-|---|---|
-| `--output=<table\|json\|csv>` | Output format (default: table for lists, json for objects) |
-| `--from=<date>` | ISO 8601, unix seconds, unix ms, or relative (`-6h`, `-1d`, `-7d`) |
-| `--to=<date>` | Same as `--from` |
-| `--limit=<n>` | 1-500 for analytics, 10-1000 for logs |
-| `--device=<id>` | Filter by device ID (or `__UNIDENTIFIED__`) |
-| `--search=<text>` | Log/analytics search |
-| `--series` | Analytics time-series mode |
-| `--interval=<1d\|1h\|30m>` | Series bucket size |
-| `--timezone=<IANA>` | e.g. `America/New_York` |
+| Flag                          | Meaning                                                            |
+| ----------------------------- | ------------------------------------------------------------------ |
+| `--output=<table\|json\|csv>` | Output format (default: table for lists, json for objects)         |
+| `--from=<date>`               | ISO 8601, unix seconds, unix ms, or relative (`-6h`, `-1d`, `-7d`) |
+| `--to=<date>`                 | Same as `--from`                                                   |
+| `--limit=<n>`                 | 1-500 for analytics, 10-1000 for logs                              |
+| `--device=<id>`               | Filter by device ID (or `__UNIDENTIFIED__`)                        |
+| `--search=<text>`             | Log/analytics search                                               |
+| `--series`                    | Analytics time-series mode                                         |
+| `--interval=<1d\|1h\|30m>`    | Series bucket size                                                 |
+| `--timezone=<IANA>`           | e.g. `America/New_York`                                            |
 
 ## Examples
 

@@ -2,7 +2,7 @@
 
 import { NextDnsClient } from "../client.ts";
 import { getApiKey } from "../util/env.ts";
-import { formatOutput, printJson, printSuccess, printError, OutputFormat } from "../util/fmt.ts";
+import { formatOutput, OutputFormat, printError, printJson, printSuccess } from "../util/fmt.ts";
 import { parseArgs } from "../args.ts";
 
 export async function profile(args: string[]): Promise<void> {
@@ -29,7 +29,10 @@ export async function profile(args: string[]): Promise<void> {
 
   if (sub === "show") {
     const id = rest[0];
-    if (!id) { printError("profile show <id>"); return; }
+    if (!id) {
+      printError("profile show <id>");
+      return;
+    }
     const p = await client.getProfile(id);
     printJson(p);
     return;
@@ -51,7 +54,10 @@ export async function profile(args: string[]): Promise<void> {
 
   if (sub === "update") {
     const id = rest[0];
-    if (!id) { printError("profile update <id> --from-file body.json"); return; }
+    if (!id) {
+      printError("profile update <id> --from-file body.json");
+      return;
+    }
     const opts = parseArgs(rest.slice(1), { string: ["name", "from-file"] });
     let body: Record<string, unknown> = {};
     if (opts.values["from-file"]) {
@@ -66,7 +72,10 @@ export async function profile(args: string[]): Promise<void> {
 
   if (sub === "delete") {
     const id = rest[0];
-    if (!id) { printError("profile delete <id>"); return; }
+    if (!id) {
+      printError("profile delete <id>");
+      return;
+    }
     await client.deleteProfile(id);
     printSuccess(`deleted ${id}`);
     return;

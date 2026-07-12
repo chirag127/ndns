@@ -2,7 +2,7 @@
 
 import { NextDnsClient } from "../client.ts";
 import { getApiKey } from "../util/env.ts";
-import { formatOutput, printJson, printSuccess, printError, OutputFormat } from "../util/fmt.ts";
+import { formatOutput, OutputFormat, printError, printJson, printSuccess } from "../util/fmt.ts";
 import { parseArgs, toBool } from "../args.ts";
 import { bulkAdd, readLines } from "./list-helpers.ts";
 
@@ -69,7 +69,10 @@ async function listCmd(args: string[], kind: "denylist" | "allowlist"): Promise<
   if (sub === "bulk-add") {
     const profile = rest[0];
     if (!profile) return printError(`${kind} bulk-add <profile> --from-file <path> | --stdin`);
-    const opts = parseArgs(rest.slice(1), { string: ["from-file", "concurrency"], boolean: ["stdin"] });
+    const opts = parseArgs(rest.slice(1), {
+      string: ["from-file", "concurrency"],
+      boolean: ["stdin"],
+    });
     const domains = await readLines({
       file: opts.values["from-file"] as string | undefined,
       stdin: opts.values.stdin as boolean | undefined,
@@ -113,7 +116,9 @@ async function listCmd(args: string[], kind: "denylist" | "allowlist"): Promise<
         if (kind === "denylist") await client.removeDenylist(profile, d);
         else await client.removeAllowlist(profile, d);
         removed++;
-      } catch { failed++; }
+      } catch {
+        failed++;
+      }
     }
     printSuccess(`${removed} removed, ${failed} failed`);
     return;
@@ -122,7 +127,9 @@ async function listCmd(args: string[], kind: "denylist" | "allowlist"): Promise<
   if (sub === "export") {
     const profile = rest[0];
     if (!profile) return printError(`${kind} export <profile>`);
-    const rows = kind === "denylist" ? await client.listDenylist(profile) : await client.listAllowlist(profile);
+    const rows = kind === "denylist"
+      ? await client.listDenylist(profile)
+      : await client.listAllowlist(profile);
     for (const r of rows) console.log(r.id);
     return;
   }
@@ -133,5 +140,9 @@ async function listCmd(args: string[], kind: "denylist" | "allowlist"): Promise<
     return;
   }
 
-  printError(`unknown: ${kind} ${sub ?? ""}. Try: list, add, remove, toggle-active, bulk-add, bulk-remove, export, import`);
+  printError(
+    `unknown: ${kind} ${
+      sub ?? ""
+    }. Try: list, add, remove, toggle-active, bulk-add, bulk-remove, export, import`,
+  );
 }

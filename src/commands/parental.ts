@@ -2,7 +2,7 @@
 
 import { NextDnsClient } from "../client.ts";
 import { getApiKey } from "../util/env.ts";
-import { formatOutput, printJson, printSuccess, printError, OutputFormat } from "../util/fmt.ts";
+import { formatOutput, OutputFormat, printError, printJson, printSuccess } from "../util/fmt.ts";
 import { parseArgs, toBool } from "../args.ts";
 
 export async function parental(args: string[]): Promise<void> {
@@ -20,7 +20,9 @@ export async function parental(args: string[]): Promise<void> {
   if (sub === "safe-search") {
     const profile = rest[0];
     const state = toBool(rest[1]);
-    if (!profile || state === undefined) return printError("parental safe-search <profile> <on|off>");
+    if (!profile || state === undefined) {
+      return printError("parental safe-search <profile> <on|off>");
+    }
     await client.patchParentalControl(profile, { safeSearch: state });
     printSuccess(`safeSearch=${state}`);
     return;
@@ -29,7 +31,9 @@ export async function parental(args: string[]): Promise<void> {
   if (sub === "youtube-restricted") {
     const profile = rest[0];
     const state = toBool(rest[1]);
-    if (!profile || state === undefined) return printError("parental youtube-restricted <profile> <on|off>");
+    if (!profile || state === undefined) {
+      return printError("parental youtube-restricted <profile> <on|off>");
+    }
     await client.patchParentalControl(profile, { youtubeRestrictedMode: state });
     printSuccess(`youtubeRestrictedMode=${state}`);
     return;
@@ -38,7 +42,9 @@ export async function parental(args: string[]): Promise<void> {
   if (sub === "block-bypass") {
     const profile = rest[0];
     const state = toBool(rest[1]);
-    if (!profile || state === undefined) return printError("parental block-bypass <profile> <on|off>");
+    if (!profile || state === undefined) {
+      return printError("parental block-bypass <profile> <on|off>");
+    }
     await client.patchParentalControl(profile, { blockBypass: state });
     printSuccess(`blockBypass=${state}`);
     return;
@@ -59,10 +65,15 @@ export async function parental(args: string[]): Promise<void> {
     if (action === "toggle") {
       const svc = rest[2];
       const state = toBool(rest[3]);
-      if (!profile || !svc || state === undefined) return printError("parental services toggle <profile> <service> <on|off>");
+      if (!profile || !svc || state === undefined) {
+        return printError("parental services toggle <profile> <service> <on|off>");
+      }
       // Try patch, fallback to add
-      try { await client.patchParentalService(profile, svc, state); }
-      catch { await client.addParentalService(profile, svc, state); }
+      try {
+        await client.patchParentalService(profile, svc, state);
+      } catch {
+        await client.addParentalService(profile, svc, state);
+      }
       printSuccess(`${svc}=${state}`);
       return;
     }
@@ -95,14 +106,23 @@ export async function parental(args: string[]): Promise<void> {
     if (action === "toggle") {
       const cat = rest[2];
       const state = toBool(rest[3]);
-      if (!profile || !cat || state === undefined) return printError("parental categories toggle <profile> <cat> <on|off>");
-      try { await client.patchParentalCategory(profile, cat, state); }
-      catch { await client.addParentalCategory(profile, cat, state); }
+      if (!profile || !cat || state === undefined) {
+        return printError("parental categories toggle <profile> <cat> <on|off>");
+      }
+      try {
+        await client.patchParentalCategory(profile, cat, state);
+      } catch {
+        await client.addParentalCategory(profile, cat, state);
+      }
       printSuccess(`${cat}=${state}`);
       return;
     }
     return printError("parental categories <list|toggle>");
   }
 
-  printError(`unknown: parental ${sub ?? ""}. Try: show, safe-search, youtube-restricted, block-bypass, services, categories`);
+  printError(
+    `unknown: parental ${
+      sub ?? ""
+    }. Try: show, safe-search, youtube-restricted, block-bypass, services, categories`,
+  );
 }

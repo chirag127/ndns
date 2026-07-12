@@ -2,7 +2,7 @@
 
 import { NextDnsClient } from "../client.ts";
 import { getApiKey } from "../util/env.ts";
-import { printJson, printSuccess, printError } from "../util/fmt.ts";
+import { printError, printJson, printSuccess } from "../util/fmt.ts";
 import { parseArgs, toBool } from "../args.ts";
 
 export async function privacy(args: string[]): Promise<void> {
@@ -19,7 +19,11 @@ export async function privacy(args: string[]): Promise<void> {
 
   if (sub === "set") {
     const profile = rest[0];
-    if (!profile) return printError("privacy set <profile> --disguised-trackers=<bool> --allow-affiliate=<bool>");
+    if (!profile) {
+      return printError(
+        "privacy set <profile> --disguised-trackers=<bool> --allow-affiliate=<bool>",
+      );
+    }
     const opts = parseArgs(rest.slice(1), { boolean: ["disguised-trackers", "allow-affiliate"] });
     const body: Record<string, unknown> = {};
     const dt = toBool(opts.values["disguised-trackers"]);

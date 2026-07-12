@@ -2,7 +2,7 @@
 
 import { NextDnsClient } from "../client.ts";
 import { getApiKey } from "../util/env.ts";
-import { printJson, printSuccess, printError } from "../util/fmt.ts";
+import { printError, printJson, printSuccess } from "../util/fmt.ts";
 import { parseArgs } from "../args.ts";
 import { normalizeDate } from "../util/date.ts";
 
@@ -64,18 +64,29 @@ export async function logs(args: string[]): Promise<void> {
     // deno-lint-ignore no-explicit-any
     const g = globalThis as any;
     if (g.Deno?.addSignalListener) {
-      try { g.Deno.addSignalListener("SIGINT", () => { ac.abort(); }); } catch { /* ignore */ }
+      try {
+        g.Deno.addSignalListener("SIGINT", () => {
+          ac.abort();
+        });
+      } catch { /* ignore */ }
     } else if (g.process?.on) {
-      g.process.on("SIGINT", () => { ac.abort(); });
+      g.process.on("SIGINT", () => {
+        ac.abort();
+      });
     }
 
     try {
       for await (const evt of client.streamLogs(profile, query, ac.signal)) {
         const t = evt.timestamp ?? "";
-        const dev = ((evt.device as Record<string, unknown> | undefined)?.name ?? evt.deviceId ?? "-");
+        const dev = (evt.device as Record<string, unknown> | undefined)?.name ?? evt.deviceId ??
+          "-";
         const domain = evt.domain ?? "-";
         const status = evt.status ?? "-";
-        const reasons = Array.isArray(evt.reasons) ? (evt.reasons as unknown[]).map((r) => (r as Record<string, unknown>)?.name ?? r).join(",") : "";
+        const reasons = Array.isArray(evt.reasons)
+          ? (evt.reasons as unknown[]).map((r) => (r as Record<string, unknown>)?.name ?? r).join(
+            ",",
+          )
+          : "";
         console.log(`${t}\t${dev}\t${domain}\t${status}\t${reasons}`);
       }
     } catch (e) {
