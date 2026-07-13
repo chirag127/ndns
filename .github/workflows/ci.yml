@@ -41,6 +41,6 @@ jobs:
       - name: install
         run: bun install
       - name: type check
-        run: bunx tsc --noEmit --allowImportingTsExtensions --module esnext --target esnext --moduleResolution bundler src/mod.ts || true
+        run: bun run check
       - name: smoke test
         run: bun run src/mod.ts help

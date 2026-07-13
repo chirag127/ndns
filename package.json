@@ -8,8 +8,8 @@
   },
   "scripts": {
     "start": "bun run src/mod.ts",
-    "check": "bun tsc --noEmit -p .",
-    "test": "bun test"
+    "check": "bun x tsc -p tsconfig.json",
+    "test": "deno task test"
   },
   "engines": {
     "bun": ">=1.3.0",
