@@ -9,7 +9,7 @@
     "fmt": "deno fmt src/",
     "lint": "deno lint src/",
     "test": "deno test --allow-env --allow-read tests/",
-    "gen:site": "deno run --allow-read --allow-write scripts/gen-site.ts",
+    "gen:site": "deno run --allow-env --allow-read --allow-write scripts/gen-site.ts",
     "compile:linux": "deno compile --target x86_64-unknown-linux-gnu --allow-net --allow-env --allow-read --allow-write -o dist/ndns-linux-x64 src/mod.ts",
     "compile:macos-arm": "deno compile --target aarch64-apple-darwin --allow-net --allow-env --allow-read --allow-write -o dist/ndns-macos-arm64 src/mod.ts",
     "compile:macos-x64": "deno compile --target x86_64-apple-darwin --allow-net --allow-env --allow-read --allow-write -o dist/ndns-macos-x64 src/mod.ts",
