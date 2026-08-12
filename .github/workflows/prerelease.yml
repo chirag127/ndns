@@ -43,7 +43,7 @@ jobs:
           deno-version: v2.x
       - name: compile
         run: deno compile --target ${{ matrix.target }} --allow-net --allow-env --allow-read --allow-write -o dist/${{ matrix.output }} src/mod.ts
-      - uses: actions/upload-artifact@v5
+      - uses: actions/upload-artifact@v7
         with:
           name: ${{ matrix.output }}
           path: dist/${{ matrix.output }}
