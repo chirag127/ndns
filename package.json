@@ -34,7 +34,7 @@
   },
   "homepage": "https://github.com/chirag127/ndns#readme",
   "devDependencies": {
-    "typescript": "^5.7.0",
-    "@types/node": "^22.0.0"
+    "typescript": "^7.0.2",
+    "@types/node": "^26.2.0"
   }
 }
