@@ -30,6 +30,6 @@ jobs:
           deno-version: v2.x
       - name: compile
         run: deno compile --target ${{ matrix.target }} --allow-net --allow-env --allow-read --allow-write -o dist/${{ matrix.output }} src/mod.ts
-      - uses: softprops/action-gh-release@v2
+      - uses: softprops/action-gh-release@v3
         with:
           files: dist/${{ matrix.output }}
