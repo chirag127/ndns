@@ -25,7 +25,7 @@ jobs:
       - name: deno fmt --check
         run: deno fmt --check src/ tests/
       - name: deno test
-        run: deno test --allow-env --allow-read tests/
+        run: deno test --allow-env --allow-read --allow-write tests/
 
   bun:
     strategy:
